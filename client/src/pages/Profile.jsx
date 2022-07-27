@@ -7,6 +7,8 @@ import UserFavorites from '../components/UserFavorites'
 
 import { UserContext } from '../userContext'
 
+// Slackerss: shopping list component to render a list of ingredients to make drinks from the api
+import ShoppingList from '../components/ShoppingList.jsx'
 
 //user profile renders specific user's profile IF they are logged on.
 //change schema to import user drinks and have the custom drinks hold who made the drink.
@@ -28,6 +30,9 @@ const Profile = () => {
     <div>
       <h3 className='profile-heading'> Favorites </h3>
       <UserFavorites favorites={favorites} />
+    </div>
+    <div>
+      <ShoppingList />
     </div>
   </div>
   )
