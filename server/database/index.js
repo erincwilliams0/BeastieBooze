@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
-const { DB_USERNAME, DB_PASSWORD } = process.env;
-const mongoUri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@cluster0.r3e81.mongodb.net/beastie-booze`;
-console.log({ DB_USERNAME, DB_PASSWORD });
+// const { DB_USERNAME, DB_PASSWORD } = process.env;
+const DATABASE = process.env.DB_NAME || 'BeastieBooze';
+const mongoUri = `${process.env.ATLAS_URL}/${DATABASE}`;
+// console.log({ DB_USERNAME, DB_PASSWORD });
 
 const db = mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: true
-
+  useFindAndModify: true,
 });
 
 module.exports = {
   db,
-  Models: require('./Models.js')
+  Models: require('./Models.js'),
 };
