@@ -33,7 +33,7 @@ const App = () => {
         <Route exact path='/custom' component={CustomFeed} />
         <Route path='/custom/:drinkId' component={CustomDrinkView} />
         <Route path='/map' >
-          <div style={{width: '100vw', height: '100vh'}}>
+          <div style={{width: '75vw', height: '50vh', display: 'block', marginLeft: 'auto', marginRight: 'auto'}}>
           <WrappedMap  
           googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAkS-j4nr_o5bz4wUV8Dm9Dk-2rLHJp7nA`} loadingElement={<div style={{height:"100%"}} />}
           containerElement={<div style={{height:"100%"}} />}

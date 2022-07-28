@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { GoogleMap, withScriptjs, withGoogleMap, InfoWindow, Marker } from  'react-google-maps'; 
+import { GoogleMap, withScriptjs, withGoogleMap, InfoWindow, Marker } from 'react-google-maps';
 import axios from 'axios';
 
 //in order for map to render propeerly in app, it needs to be wrapped by a couple other functions. instead of adding a  couple of high order components, see implementation at ****
 const Map = () => {
-//on click of a marker in the map, set the state to that store so the InfoWindow can be rendered
+  //on click of a marker in the map, set the state to that store so the InfoWindow can be rendered
   const [liquorStore, setLiquorStore] = useState(null);
 
   //this data can be retrieved from an api, but we used dummy data assuming consumers lived in new orleans
@@ -20,21 +20,23 @@ const Map = () => {
     },
     {
       storeName: 'Vieux Carre Wine & Spirits',
-    address: '422 Chartres St, New Orleans, LA 70130',
-    link: 'https://www.google.com/maps/dir//422+Chartres+St,+New+Orleans,+LA+70130/@29.9554445,-90.1355283,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x8620a60df568a545:0x98bfa58c58e7e8fc!2m2!1d-90.0653159!2d29.9553144',
-    coordinates: {
-      lat: 29.9553593,
-      lng: -90.0653627
-    },},
+      address: '422 Chartres St, New Orleans, LA 70130',
+      link: 'https://www.google.com/maps/dir//422+Chartres+St,+New+Orleans,+LA+70130/@29.9554445,-90.1355283,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x8620a60df568a545:0x98bfa58c58e7e8fc!2m2!1d-90.0653159!2d29.9553144',
+      coordinates: {
+        lat: 29.9553593,
+        lng: -90.0653627
+      },
+    },
     {
       storeName: 'Spirit Wine',
-    address: '3500 Magazine St, New Orleans, LA 70115',
-    link: 'https://www.google.com/maps/dir//3500+Magazine+St,+New+Orleans,+LA+70115/@29.9222255,-90.0951827,16z/data=!4m8!4m7!1m0!1m5!1m1!1s0x8620a4342bc67f15:0xdfce19a073dddf4a!2m2!1d-90.0907946!2d29.9222163',
-    coordinates: {
-      lat: 29.9221002,
-      lng: -90.0907571
-    },},
-    { 
+      address: '3500 Magazine St, New Orleans, LA 70115',
+      link: 'https://www.google.com/maps/dir//3500+Magazine+St,+New+Orleans,+LA+70115/@29.9222255,-90.0951827,16z/data=!4m8!4m7!1m0!1m5!1m1!1s0x8620a4342bc67f15:0xdfce19a073dddf4a!2m2!1d-90.0907946!2d29.9222163',
+      coordinates: {
+        lat: 29.9221002,
+        lng: -90.0907571
+      },
+    },
+    {
       storeName: 'Elios Wine Warehouse',
       address: '6205 S Miro St, New Orleans, LA 70125',
       link: 'https://www.google.com/maps/dir//6205+S+Miro+St,+New+Orleans,+LA+70125/@29.9467161,-90.1829043,12z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x8620a50a6d638095:0x1e42d19e067cf9dc!2m2!1d-90.1126919!2d29.946586',
@@ -91,7 +93,7 @@ const Map = () => {
     {
       storeName: 'Second Vine Wine',
       address: '4212 Magazine St, New Orleans, LA 70115',
-      link:'https://www.google.com/maps/dir//4212+Magazine+St,+New+Orleans,+LA+70115/@29.920875,-90.1039822,16z/data=!4m8!4m7!1m0!1m5!1m1!1s0x8620a44ebe1cd02d:0x6faae563b18dd9e!2m2!1d-90.0995941!2d29.9208658',
+      link: 'https://www.google.com/maps/dir//4212+Magazine+St,+New+Orleans,+LA+70115/@29.920875,-90.1039822,16z/data=!4m8!4m7!1m0!1m5!1m1!1s0x8620a44ebe1cd02d:0x6faae563b18dd9e!2m2!1d-90.0995941!2d29.9208658',
       coordinates: {
         lat: 29.9207179,
         lng: -90.0994619
@@ -100,7 +102,7 @@ const Map = () => {
     {
       storeName: 'Esplanade Food Store',
       address: '1400 Esplanade Ave, New Orleans, LA 70116',
-      link:'https://www.google.com/maps/dir//1400+Esplanade+Ave,+New+Orleans,+LA+70116/@36.1168488,-115.1533057,12z',
+      link: 'https://www.google.com/maps/dir//1400+Esplanade+Ave,+New+Orleans,+LA+70116/@36.1168488,-115.1533057,12z',
       coordinates: {
         lat: 29.9680353,
         lng: -90.0671956
@@ -111,31 +113,34 @@ const Map = () => {
 
   return (
     <div style={{
-       width: '100vw',
-       height: '100vh'}}>
-    <GoogleMap
-      defaultZoom={10}
-      defaultCenter={{lat:29.951065, lng:-90.071533}}>
-        {data.map(store => (
-         <Marker 
-         position={store.coordinates}
-         onMouseOver={() => 
-         setLiquorStore(store)}/>
-  ))}
+      width: '100vw',
+      height: '100vh'
+    }}>
+      <GoogleMap
+        defaultZoom={12.3}
+        defaultCenter={{ lat: 29.951065, lng: -90.071533 }}>
+        {data.map((store, index) => (
+          <Marker
+            position={store.coordinates}
+            onMouseOver={() =>
+              setLiquorStore(store)}
+            key={index}
+          />
+        ))}
         {liquorStore && (
-   <InfoWindow
-      onCloseClick={() => {
-         setLiquorStore(null);
-      }}
-      position={liquorStore.coordinates}
-   >
-     <div>
-        <h2>{liquorStore.storeName}</h2>
-        <p>{liquorStore.address}</p>
-        <a href={liquorStore.link}>Directions</a>
-     </div>
-   </InfoWindow>
-)}
+          <InfoWindow
+            onCloseClick={() => {
+              setLiquorStore(null);
+            }}
+            position={liquorStore.coordinates}
+          >
+            <div>
+              <h2>{liquorStore.storeName}</h2>
+              <p>{liquorStore.address}</p>
+              <a href={liquorStore.link}>Directions</a>
+            </div>
+          </InfoWindow>
+        )}
       </GoogleMap>
     </div>
   )
