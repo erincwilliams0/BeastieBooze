@@ -42,17 +42,25 @@ const ShoppingList = () => {
 
 
   // changes the current page
+  // handles changing the page count
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
   }
+const handleChangeRowsCount = (event) => {
+  setRowsPerPage(event.target.value);
+  setPage(0);
+}
+
 
   //Table Pagination Tag
   const pageSetup = (
     <TablePagination  
+    rowsPerPageOptions={[5, 10, 15]}
     rowsPerPage={rowsPerPage}
     page={page}
     count={count}
     onPageChange={handleChangePage}
+    onRowsPerPageChange={handleChangeRowsCount}
     />
   )
 
@@ -90,10 +98,13 @@ const ShoppingList = () => {
                 )
               })
             }
+            <TableRow >
+            {pageSetup}
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
-      {pageSetup}
+
     </Paper>
 
   )
