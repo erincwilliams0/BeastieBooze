@@ -54,8 +54,17 @@ const DrinkSchema = new mongoose.Schema({
   //add a createdBy to the drinkSchema to link to Users once created
 });
 
+const EventSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  date: String,
+  location: String,
+  eventType: String,
+});
+
 const User = mongoose.model('User', UserSchema);
 const Drink = mongoose.model('Drink', DrinkSchema);
+const Event = mongoose.model('Event', EventSchema);
 
 const addDrink = async (drink) => {
   const { drinkName: name, instructions, ingredients, alcoholic } = drink;
@@ -72,10 +81,22 @@ const getDrinks = async () => {
   return await Drink.find({}).exec();
 };
 
+const createEvent = async (args) => {
+  const event = {
+    title: args.title,
+    description: args.description,
+    date: new Date().toISOString(),
+    location: args.location,
+    eventType: args.eventType,
+  };
+};
+
 module.exports = {
   User,
   Drink,
   addDrink,
   getDrinks,
   Review,
+  Event,
+  createEvent,
 };
