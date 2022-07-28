@@ -13,12 +13,32 @@ import { useTheme } from '@mui/material/styles';
 import ShoppingListEntry from './ShoppingListEntry.jsx';
 
 
+// function to create a row following column syntax
+function createData(id, name, quantity) {
+  return { id, name, quantity };
+}
+//exampleData
+const rows = [
+  createData(22, "Jack and coke", 5),
+  createData(13, "redbull and vodka", 2),
+  createData(40, "Jack Daniels Float", 10),
+  createData(5, "hand grenade", 8),
+  createData(62, "Shark Attack", 5),
+  createData(37, "JaegarBombs", 11),
+  createData(70, "Irish Car Bombs", 1)
+]
 
 
 
 
 
-const ShoppingList = () => {
+export default function ShoppingList() {
+  // hooks for TablePagination
+  const [count, setCount] = useState(rows.length);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+
   // columns with a field of drinkId, drink name, quantity;
   const columns = [
     { id: 'id', label: 'ID' },
@@ -26,9 +46,33 @@ const ShoppingList = () => {
     { id: 'quantity', label: 'Quantity' }
   ]
 
- 
 
-  
+
+  // changes the current page
+  // handles changing the page count
+  const handleChangePage = (e, newPage) => {
+    setPage(newPage);
+  }
+  const handleChangeRowsCount = (event) => {
+    setRowsPerPage(event.target.value);
+    setPage(0);
+  }
+
+
+  //Table Pagination Tag
+  const pageSetup = (
+    <TablePagination
+      rowsPerPageOptions={[5, 10, 15]}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      count={count}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeRowsCount}
+    />
+
+  )
+
+
 
   return (
     <Paper >
@@ -48,7 +92,17 @@ const ShoppingList = () => {
           </TableHead>
 
           {/**ShoppingListEntry === TableBody */}
-          <ShoppingListEntry columns={columns}/>
+          <TableBody >
+              {
+                rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                  return <ShoppingListEntry row={row} columns={columns} key={row.id} />
+                })
+              }
+            <TableRow >
+              {/** TablePagination handles row count in page and pagechange */}
+              {pageSetup}
+            </TableRow>
+          </TableBody>
 
         </Table>
       </TableContainer>
@@ -58,4 +112,3 @@ const ShoppingList = () => {
 }
 
 
-export default ShoppingList;
