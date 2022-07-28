@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
-import { GoogleMap, withScriptjs, withGoogleMap, InfoWindow, Marker } from 'react-google-maps';
-import axios from 'axios';
+// import { withScriptjs, withGoogleMap, InfoWindow, Marker } from 'react-google-maps';
+import { useLoadScript, GoogleMap } from '@react-google-maps/api';
+import ReactLoading from "react-loading";
+import Map from '../components/Map.jsx';
 
 //in order for map to render propeerly in app, it needs to be wrapped by a couple other functions. instead of adding a  couple of high order components, see implementation at ****
-const Map = () => {
+const Bars = () => {
   //on click of a marker in the map, set the state to that store so the InfoWindow can be rendered
-  const [liquorStore, setLiquorStore] = useState(null);
+  // const [liquorStore, setLiquorStore] = useState(null);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+    libraries: ['places']
+  })
+
+  if (!isLoaded) {
+    return <div>
+      <ReactLoading type={ "spinningBubbles"} color="#000000"/>
+    </div>;
+  }
 
   //this data can be retrieved from an api, but we used dummy data assuming consumers lived in new orleans
   const data = [
@@ -112,7 +125,17 @@ const Map = () => {
 
 
   return (
-    <div style={{
+    <Map />
+  )
+}
+
+//**** 
+// const WrappedMap = withScriptjs(withGoogleMap(Map));
+
+export default Bars;
+
+
+{/* <div style={{
       width: '100vw',
       height: '100vh'
     }}>
@@ -142,11 +165,4 @@ const Map = () => {
           </InfoWindow>
         )}
       </GoogleMap>
-    </div>
-  )
-}
-
-//**** 
-const WrappedMap = withScriptjs(withGoogleMap(Map));
-
-export default WrappedMap;
+    </div> */}
