@@ -16,10 +16,12 @@ const columns = [
   { id: 'quantity', label: 'Quantity' }
 ]
 
+// function to create a row following column syntax
 function createData(id, name, quantity) {
   return { id, name, quantity };
 }
 
+// example data for rendering rows
 const rows = [
   createData(22, "Jack and coke", 5),
   createData(13, "redbull and vodka", 2),
@@ -41,12 +43,30 @@ const ShoppingList = () => {
           <TableRow>
 
             {columns.map((column) => {
-              <TableCell 
-              key={column.id} > {column.label} </TableCell> })
-            }
+              return (
+                <TableCell
+                  key={column.id} > {column.label} </TableCell>
+              )
+            })}
 
           </TableRow>
         </TableHead>
+        <TableBody >
+          {
+            rows.map((row) => {
+              return (
+                <TableRow key={row.id} >
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return <TableCell key={column.id} >
+                      {value}
+                    </TableCell>
+                  })}
+                </TableRow>
+              )
+            })
+          }
+        </TableBody>
       </Table>
     </TableContainer>
   )
