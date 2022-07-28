@@ -3,7 +3,7 @@
 import React, { useContext } from 'react'
 
 import UserCreations from '../components/UserCreations'
-import UserFavorites from '../components/UserFavorites' 
+import UserFavorites from '../components/UserFavorites'
 
 import { UserContext } from '../userContext'
 
@@ -21,20 +21,20 @@ const Profile = () => {
 
 
   return (
-  <div className ='container'>
-    <h1 className='page-heading'>{`Hello Beastie ${username}`}</h1>
-    <div>
-      <h3 className='profile-heading'> Creations </h3>
-      <UserCreations creations={creations} />
-    </div>
-    <div>
-      <h3 className='profile-heading'> Favorites </h3>
-      <UserFavorites favorites={favorites} />
-    </div>
-    <div>
+    <div className='container'>
+      <h1 className='page-heading'>{`Hello Beastie ${username}`}</h1>
+      <div>
+        <h3 className='profile-heading'> Creations </h3>
+        <UserCreations creations={creations} />
+      </div>
+      <div>
+        <h3 className='profile-heading'> Favorites </h3>
+        <UserFavorites favorites={favorites} />
+      </div>
+
       <ShoppingList />
+
     </div>
-  </div>
   )
 
 }
