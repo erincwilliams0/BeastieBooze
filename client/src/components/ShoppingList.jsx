@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 
 // columns with a field of drinkId, drink name, quantity;
@@ -34,41 +35,67 @@ const rows = [
 
 const ShoppingList = () => {
 
+  // hooks for TablePagination
+  const [count, setCount] = useState(rows.length);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
+
+  // changes the current page
+  const handleChangePage = (e, newPage) => {
+    setPage(newPage);
+  }
+
+  //Table Pagination Tag
+  const pageSetup = (
+    <TablePagination  
+    rowsPerPage={rowsPerPage}
+    page={page}
+    count={count}
+    onPageChange={handleChangePage}
+    />
+  )
+
+  // render on change
+  // useEffect here
 
   return (
-    <TableContainer component={Paper} >
-      <Table stickyHeader >
-        <TableHead>
-          <TableRow>
+    <Paper >
+      <TableContainer >
+        <Table stickyHeader >
+          <TableHead>
+            <TableRow>
 
-            {columns.map((column) => {
-              return (
-                <TableCell
-                  key={column.id} > {column.label} </TableCell>
-              )
-            })}
+              {columns.map((column) => {
+                return (
+                  <TableCell
+                    key={column.id} > {column.label} </TableCell>
+                )
+              })}
 
-          </TableRow>
-        </TableHead>
-        <TableBody >
-          {
-            rows.map((row) => {
-              return (
-                <TableRow key={row.id} >
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return <TableCell key={column.id} >
-                      {value}
-                    </TableCell>
-                  })}
-                </TableRow>
-              )
-            })
-          }
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableRow>
+          </TableHead>
+          <TableBody >
+            {
+              rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                return (
+                  <TableRow key={row.id} >
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return <TableCell key={column.id} >
+                        {value}
+                      </TableCell>
+                    })}
+                  </TableRow>
+                )
+              })
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {pageSetup}
+    </Paper>
+
   )
 }
 
