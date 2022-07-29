@@ -4,19 +4,64 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Login from './Login.jsx';
+import axios from 'axios';
+
+import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 // import { UserContext } from '../userContext.jsx';
 
 import { UserContext } from '../userContext'
+
+
 
 const Navbar = () => {
 
   //* links to endpoints that will be handled by Routes in App component
   const { userInfo, isLoggedIn } = useContext(UserContext);
+  const [open, setOpen] = useState(false);
+  const [file, setFile] = useState()
+  const [caption, setCaption] = useState("")
   const { username } = userInfo;
   //state to hold collapsing navbar
-  const [ isNavCollapsed, setIsNavCollapsed ] = useState(true);
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const handleNavCollapse = () => {
     return setIsNavCollapsed(!isNavCollapsed);
+  }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const submit = e => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('caption', caption);
+
+    axios.post('/images', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  const fileSelected = e => {
+    const file = e.target.files[0];
+
+    setFile(file);
   }
 
   return (
@@ -48,18 +93,45 @@ const Navbar = () => {
             : null
           }
         </ul>
+        <li>
+          <div>
+            <Button className="add-image">
+              <AddPhotoAlternateOutlinedIcon onClick={handleClickOpen}></AddPhotoAlternateOutlinedIcon>
+            </Button>
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>Booze Image Uploader</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Show us what you are currently drinking at your favorite bars.
+                </DialogContentText>
+              </DialogContent>
+              <div>
+                <form onSubmit={submit}>
+                  <input id="choose-file" type="file" onChange={fileSelected} accept="image/*" />
+                  <br />
+                  <TextField id="caption-input" label="Name of Drink" variant="outlined" onChange={e => setCaption(e.target.value)} type="text" />
+                  {/* <input id="caption-input" value={caption} onChange={e => setCaption(e.target.value)} type="text" placeholder='Name of Drink'></input> */}
+                  <DialogActions>
+                    <Button type="submit">Upload</Button>
+                    <Button onClick={handleClose}>Cancel</Button>
+                  </DialogActions>
+                </form>
+              </div>
+            </Dialog>
+          </div>
+        </li>
         {username ?
-              <li className="nav-item">
-                <Link to={`/profile/${userInfo.googleId}`}>
-                  <p className="nav-item grey">
-                    Welcome, {username}!&nbsp;&nbsp;&nbsp;&nbsp;
-                  </p>
-                </Link>
-              </li>
-              : null
-            }
+          <li className="nav-item">
+            <Link to={`/profile/${userInfo.googleId}`}>
+              <p className="nav-item grey" id="welcome">
+                Welcome, {username}!&nbsp;&nbsp;&nbsp;&nbsp;
+              </p>
+            </Link>
+          </li>
+          : null
+        }
         <li className="nav-item login-nav">
-          <div className="nav-link btn-nav" style={{padding: '10px 0px 0px 0px'}}>
+          <div className="nav-link btn-nav" style={{ padding: '10px 0px 0px 0px' }}>
             <Login />
           </div>
         </li>

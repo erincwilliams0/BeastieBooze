@@ -6,20 +6,27 @@ const { uploadFile } = require('/s3');
 
 const uploadImgRouter = Router();
 
-uploadImgRouter.post('/images', upload.single('image'), (req, res) => {
-  const file = req.file;
-  const { description } = req.body;
+// uploadImgRouter.get('/images', (req, res) => {
+  
+// })
 
-  // console.log(file);
-  // console.log(description);
+uploadImgRouter.post('/images', (req, res) => {
+  console.log(req.body);
+  // const file = req.file;
+  // const { description } = req.body;
 
-  uploadFile(file)
-    .then((data) => {
-      console.log(data);
-      // res.send('👌').status(200);
-    })
-    .catch(err => {
-      console.error(err);
-      // res.sendStatus(500);
-    })
+  // // console.log(file);
+  // // console.log(description);
+
+  // uploadFile(file)
+  //   .then((data) => {
+  //     console.log(data);
+  //     // res.send('👌').status(200);
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //     // res.sendStatus(500);
+  //   })
 });
+
+// upload.single('image'), 
