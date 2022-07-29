@@ -2,7 +2,7 @@ const { Router } = require("express");
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
 
-const { uploadFile } = require('/s3');
+const { uploadFile } = require('../s3.js');
 
 const uploadImgRouter = Router();
 
@@ -30,3 +30,5 @@ uploadImgRouter.post('/images', (req, res) => {
 });
 
 // upload.single('image'), 
+
+module.exports = { uploadImgRouter };
