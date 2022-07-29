@@ -85,7 +85,7 @@ const drinkListingSchema = new mongoose.Schema({
 
 // Slackerss ShoppingList Schema for profiles
 const UsersShoppingListSchema = new mongoose.Schema({
-  user: {
+  googleId: {
     type: String,
     ref: User,
     unique: true

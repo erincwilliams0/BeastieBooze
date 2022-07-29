@@ -22,30 +22,6 @@ const createUser = async (userObj) => {
   }
 };
 
-// Slackers get and create shoppingList
-const getShoppingList = async (userId) => {
-const { googleId } = userId;
-
-try {
-  const shoppingList = await ShoppingList.find({ user: googleId });
-  return shoppingList;
-} catch (err) {
-  console.error('could not get shoppingList\n', err);
-}
-
-} 
-
-const createShoppingList = async (userId) => {
-  const { googleId } = userId;
-
-  try {
-    const newList = await ShoppingList.create({ user: googleId })
-    return newList;
-  } catch (err) {
-    console.error('createUserShoppingList failed \n', err);
-  }
-}
-
 const findAndUpdate = async (id, data) => {
   const updatedUser = await User.findOneAndUpdate(
     { googleId: id },
@@ -93,6 +69,32 @@ const findDrinkReviews = async (id) => {
   // });
   return drinkReviews;
 };
+
+
+// Slackers get and create shoppingList
+const getShoppingList = async (userId) => {
+  const { googleId } = userId;
+  
+  try {
+    const shoppingList = await ShoppingList.find({ user: googleId });
+    return shoppingList;
+  } catch (err) {
+    console.error('could not get shoppingList\n', err);
+  }
+  
+  } 
+  
+  const createShoppingList = async (userId) => {
+    const { googleId } = userId;
+  
+    try {
+      const newList = await ShoppingList.create({ googleId })
+      return newList;
+    } catch (err) {
+      console.error('createUserShoppingList failed \n', err);
+    }
+  }
+
 
 module.exports = {
   getUser,
