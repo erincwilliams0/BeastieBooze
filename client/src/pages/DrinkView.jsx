@@ -102,6 +102,9 @@ const DrinkView = () => {
     }
   };
 
+  //Slackerss add Drink to shoppingList button
+  const ShoppingButton = () => {};
+
   return (
     <div className='container'>
       <h2 className='page-heading'>{name}</h2>

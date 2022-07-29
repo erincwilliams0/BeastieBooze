@@ -33,7 +33,10 @@ const ReviewSchema = new mongoose.Schema(
 const Review = mongoose.model('Review', ReviewSchema);
 
 const UserSchema = new mongoose.Schema({
-  googleId: String, // not sure if this will a string or a number, need to check once we can get data from google
+  googleId: {
+    type: String,
+    unique: true
+  },
   username: String,
   favorites: [],
   creations: [],
@@ -54,6 +57,7 @@ const DrinkSchema = new mongoose.Schema({
   //add a createdBy to the drinkSchema to link to Users once created
 });
 
+<<<<<<< HEAD
 const EventSchema = new mongoose.Schema({
   title: String,
   description: String,
@@ -61,10 +65,45 @@ const EventSchema = new mongoose.Schema({
   location: String,
   eventType: String,
 });
+=======
+>>>>>>> c4312867623979c97f4bb910c28b70982cdb9aa6
 
 const User = mongoose.model('User', UserSchema);
 const Drink = mongoose.model('Drink', DrinkSchema);
 const Event = mongoose.model('Event', EventSchema);
+
+const drinkListingSchema = new mongoose.Schema({
+  drinkId: {
+    type: Number,
+    unique: true
+  },
+  name: String,
+  quantity: Number,
+  ing1: String,
+  ing2: String,
+  ing3: String,
+  ing4: String,
+  ing5: String,
+  ing6: String,
+  ing7: String,
+  ing8: String,
+  ing9: String,
+  ing10: String,
+  ing11: String,
+  ing12: String
+
+})
+
+// Slackerss ShoppingList Schema for profiles
+const UsersShoppingListSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.ObjectId,
+    ref: User
+  },
+  List: [drinkListingSchema]
+})
+
+const ShoppingList = mongoose.model('shoppingList', UsersShoppingListSchema);
 
 const addDrink = async (drink) => {
   const { drinkName: name, instructions, ingredients, alcoholic } = drink;
@@ -97,6 +136,10 @@ module.exports = {
   addDrink,
   getDrinks,
   Review,
+<<<<<<< HEAD
   Event,
   createEvent,
+=======
+  ShoppingList
+>>>>>>> c4312867623979c97f4bb910c28b70982cdb9aa6
 };

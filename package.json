@@ -23,7 +23,10 @@
   },
   "homepage": "https://github.com/BiscuitBae/BeastieBooze#readme",
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@hookform/resolvers": "^2.5.2",
+    "@mui/material": "^5.9.2",
     "@popperjs/core": "^2.9.2",
     "acorn-jsx": "^5.3.1",
     "aws-sdk": "^2.1182.0",
