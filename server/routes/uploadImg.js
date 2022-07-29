@@ -17,6 +17,10 @@ uploadImgRouter.post('/', upload.single('image'), (req, res) => {
   const { file } = req;
   const { caption } = req.body;
 
+  uploadFile(file.buffer, file.originalname, file.mimetype)
+    .then(() => {
+      
+    });
 });
 
 // upload.single('image'), 

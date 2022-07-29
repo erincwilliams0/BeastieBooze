@@ -7,7 +7,7 @@ const region = process.env.AWS_BUCKET_REGION;
 const accessKeyId = process.env.AWS_ACCESS_KEY;
 const secretAccessKey = process.env.AWS_SECRET_KEY;
 
-const s3 = new S3Client({
+const s3Client = new S3Client({
   region,
   credentials: {
     accessKeyId,
@@ -25,7 +25,7 @@ const uploadFile = (fileBuffer, fileName, mimetype) => {
     ContentType: mimetype
   }
 
-  return S3Client.send(new PutObjectCommand(uploadParams));
+  return s3Client.send(new PutObjectCommand(uploadParams));
 }
 
 // downloads a file from s3
@@ -35,24 +35,24 @@ const deleteFile = (fileName) => {
     Key: fileName,
   }
 
-  return S3Client.send(new DeleteObjectCommand(deleteParams));
+  return s3Client.send(new DeleteObjectCommand(deleteParams));
 }
 
 const getObjectSignedUrl = (key) => {
   const params = {
-    Bucket: bucketName, 
+    Bucket: bucketName,
     Key: key
   }
 
   // https://aws.amazon.com/blogs/developer/generate-presigned-url-modular-aws-sdk-javascript/
   const command = new GetObjectCommand(params);
   const seconds = 60;
-  const url = getSignedUrl(S3Client, command, { expiresIn: seconds });
+  const url = getSignedUrl(s3Client, command, { expiresIn: seconds });
 
   return url;
 }
 
-export default {
+module.exports = {
   uploadFile,
   deleteFile,
   getObjectSignedUrl,
