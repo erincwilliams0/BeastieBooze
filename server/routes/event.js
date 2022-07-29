@@ -7,3 +7,5 @@ eventRouter.get('/events', (req, res) => {
     .then((data) => res.status(200).send(data))
     .catch((err) => res.sendStatus(500));
 });
+
+module.exports = { eventRouter };
