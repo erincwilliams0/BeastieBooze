@@ -45,17 +45,23 @@ const Navbar = () => {
   const submit = e => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('image', file);
-    formData.append('caption', caption);
+    const { name, size, type, lastModifiedDate } = file;
 
-    axios.post('/images', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    const formData = {
+      name,
+      size,
+      type,
+      lastModifiedDate,
+      caption
+    };
+
+    axios.post('/routes/images', {formData})
       .then((data) => {
         console.log(data);
       })
       .catch(err => {
         console.log(err);
-      })
+      });
   }
 
   const fileSelected = e => {

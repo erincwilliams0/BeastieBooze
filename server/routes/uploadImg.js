@@ -6,11 +6,11 @@ const { uploadFile } = require('../s3.js');
 
 const uploadImgRouter = Router();
 
-// uploadImgRouter.get('/images', (req, res) => {
+// uploadImgRouter.get('/', (req, res) => {
   
 // })
 
-uploadImgRouter.post('/images', (req, res) => {
+uploadImgRouter.post('/', (req, res) => {
   console.log(req.body);
   // const file = req.file;
   // const { description } = req.body;

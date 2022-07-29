@@ -11,5 +11,5 @@ module.exports = (app) => {
   app.use('/routes/drink/', drinkRouter),
   app.use('/routes/custom/', customRouter),
   app.use('/routes/users/', usersRouter),
-  app.use('/routes/images/', uploadImgRouter)
+  app.use('/routes/images', uploadImgRouter)
 };
