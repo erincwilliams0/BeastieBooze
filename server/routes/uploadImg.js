@@ -1,25 +1,28 @@
 const { Router } = require("express");
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' })
-
-const { uploadFile } = require('/s3');
+const { uploadFile, deleteFile, getObjectSignedUrl } = require('../s3.js');
 
 const uploadImgRouter = Router();
 
-uploadImgRouter.post('/images', upload.single('image'), (req, res) => {
-  const file = req.file;
-  const { description } = req.body;
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
-  // console.log(file);
-  // console.log(description);
+// const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
-  uploadFile(file)
-    .then((data) => {
-      console.log(data);
-      // res.send('👌').status(200);
-    })
-    .catch(err => {
-      console.error(err);
-      // res.sendStatus(500);
-    })
+// uploadImgRouter.get('/', (req, res) => {
+  
+// })
+
+uploadImgRouter.post('/', upload.single('image'), (req, res) => {
+  const { file } = req;
+  const { caption } = req.body;
+
+  uploadFile(file.buffer, file.originalname, file.mimetype)
+    .then(() => {
+      
+    });
 });
+
+// upload.single('image'), 
+
+module.exports = { uploadImgRouter };

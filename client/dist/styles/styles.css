@@ -105,11 +105,11 @@ a:hover {
 }
 
 .grey {
-  color: rgba(255,255,255,.5);
+  color: rgba(255, 255, 255, .5);
 }
 
 .grey:hover {
-  color: rgba(255,255,255,.75);
+  color: rgba(255, 255, 255, .75);
 }
 
 /* Search Styles */
@@ -199,3 +199,37 @@ a:hover {
   height: 91vh;
 }
 
+li {
+  list-style: none;
+}
+
+.add-image {
+  padding: 0px;
+}
+
+
+#welcome {
+  margin: 0px 10px;
+}
+
+/* Image Uploader Styles */
+
+#choose-file {
+  padding-left: 24px;
+  padding-bottom: 12px;
+}
+
+input::file-selector-button {
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  padding: 0.5em;
+  background-color: rgba(26, 104, 230, 0.8);
+  border: thin solid rgb(26, 104, 230, 0.8);
+  border-radius: 12px;
+}
+
+#caption-input {
+  margin: 6px;
+  padding: 5px;
+}
