@@ -3,7 +3,7 @@ dotenv.config();
 const moment = require('moment');
 const mongoose = require('mongoose');
 ////////////////////////////////////////////////////////
-const DATABASE = process.env.DB_NAME || 'beastie-booze';
+const DATABASE = process.env.DB_NAME || 'BeastieBooze';
 // for dev - uncomment the next line and comment out line 10
 // const dbLocation = `mongodb://localhost:27017/${DATABASE}`;
 // for prod
@@ -35,7 +35,7 @@ const Review = mongoose.model('Review', ReviewSchema);
 const UserSchema = new mongoose.Schema({
   googleId: {
     type: String,
-    unique: true
+    unique: true,
   },
   username: String,
   favorites: [],
@@ -57,14 +57,22 @@ const DrinkSchema = new mongoose.Schema({
   //add a createdBy to the drinkSchema to link to Users once created
 });
 
+const EventSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  date: String,
+  location: String,
+  eventType: String,
+});
 
 const User = mongoose.model('User', UserSchema);
 const Drink = mongoose.model('Drink', DrinkSchema);
+const Event = mongoose.model('Event', EventSchema);
 
 const drinkListingSchema = new mongoose.Schema({
   drinkId: {
     type: Number,
-    unique: true
+    unique: true,
   },
   name: String,
   quantity: Number,
@@ -79,9 +87,8 @@ const drinkListingSchema = new mongoose.Schema({
   ing9: String,
   ing10: String,
   ing11: String,
-  ing12: String
-
-})
+  ing12: String,
+});
 
 // Slackerss ShoppingList Schema for profiles
 const UsersShoppingListSchema = new mongoose.Schema({
@@ -90,8 +97,8 @@ const UsersShoppingListSchema = new mongoose.Schema({
     ref: User,
     unique: true
   },
-  List: [drinkListingSchema]
-})
+  List: [drinkListingSchema],
+});
 
 const ShoppingList = mongoose.model('shoppingList', UsersShoppingListSchema);
 
@@ -110,11 +117,23 @@ const getDrinks = async () => {
   return await Drink.find({}).exec();
 };
 
+const createEvent = async (args) => {
+  const event = {
+    title: args.title,
+    description: args.description,
+    date: new Date().toISOString(),
+    location: args.location,
+    eventType: args.eventType,
+  };
+};
+
 module.exports = {
   User,
   Drink,
   addDrink,
   getDrinks,
   Review,
-  ShoppingList
+  Event,
+  createEvent,
+  ShoppingList,
 };
