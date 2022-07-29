@@ -86,8 +86,9 @@ const drinkListingSchema = new mongoose.Schema({
 // Slackerss ShoppingList Schema for profiles
 const UsersShoppingListSchema = new mongoose.Schema({
   user: {
-    type: mongoose.ObjectId,
-    ref: User
+    type: String,
+    ref: User,
+    unique: true
   },
   List: [drinkListingSchema]
 })
