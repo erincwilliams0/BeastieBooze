@@ -9,17 +9,21 @@ import {
 // import Places from './places.jsx';
 // import Distance from './distance.jsx';
 
-// const LatLngLiteral = google.maps.LatLngLiteral;
+// const LatLngLiteral = new google.maps.LatLngLiteral;
 // const DirectionsResult = google.maps.DirectionsResult;
 // const MapOptions = google.maps.MapOptions;
+// const service = new google.maps.places.PlacesService(map);
 
 
 const Map = () => {
+  const mapRef = useRef();
   const center = useMemo(() => ({ lat: 29.951065, lng: -90.071533 }), []);
   const options = useMemo(() => ({
     disableDefaultUI: true,
     clickableIcons: false
   }), []);
+  const onLoad = useCallback(map => (mapRef.current = map), []);
+  // const bars = useMemo(() => generateBars(center), [center]);
 
   return (
     <div style={{
@@ -32,20 +36,22 @@ const Map = () => {
           center={center}
           mapContainerClassName='map-container'
           options={options}
-        ></GoogleMap>
+          onLoad={onLoad}
+        >
+        </GoogleMap>
       </div>
     </div>
   )
 }
 
-// const generateBars = (position: LatLngLiteral) => {
-//   const _bars: Array<LatLngLiteral> = [];
+// const generateBars = (center) => {
+//   const _bars = [];
 
 //   for(let i = 0; i < 50; i++) {
 //     const direction = Math.random() < 0.5 ? -2 : 2;
 //     _bars.push({
-//       lat: position.lat + Math.random() / direction,
-//       lng: position.lng + Math.random() / direction
+//       lat: center.lat + Math.random() / direction,
+//       lng: center.lng + Math.random() / direction
 //     });
 //   }
 
