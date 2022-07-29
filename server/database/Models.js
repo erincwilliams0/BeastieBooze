@@ -109,6 +109,8 @@ const getDrinks = async () => {
   return await Drink.find({}).exec();
 };
 
+
+
 module.exports = {
   User,
   Drink,

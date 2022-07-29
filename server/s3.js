@@ -1,45 +1,59 @@
-const dotenv = require('dotenv').config();
-const fs = require('fs');
-const S3 = require('aws-sdk/clients/s3');
+require('dotenv').config();
+import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 const region = process.env.AWS_BUCKET_REGION;
 const accessKeyId = process.env.AWS_ACCESS_KEY;
 const secretAccessKey = process.env.AWS_SECRET_KEY;
 
-const s3 = new S3({
-    region, 
-    credentials: {
-      accessKeyId,
-      secretAccessKey
-    }
+const s3 = new S3Client({
+  region,
+  credentials: {
+    accessKeyId,
+    secretAccessKey
+  }
 });
 
 
 // uploads a file to s3 
-const uploadFile = (file) => {
-  const fileStream = fs.createReadStream(file.path);
-
+const uploadFile = (fileBuffer, fileName, mimetype) => {
   const uploadParams = {
     Bucket: bucketName,
-    Body: fileStream,
-    Key: file.filename
+    Body: fileBuffer,
+    Key: fileName,
+    ContentType: mimetype
   }
 
-  return s3.upload(uploadParams).promise();
+  return S3Client.send(new PutObjectCommand(uploadParams));
 }
 
 // downloads a file from s3
-const getFileStream = (fileKey) => {
-  const downloadParams = {
-    Key: fileKey,
-    Bucket: bucketName
+const deleteFile = (fileName) => {
+  const deleteParams = {
+    Bucket: bucketName,
+    Key: fileName,
   }
 
-  return s3.getObject(downloadParams).createReadStream();
+  return S3Client.send(new DeleteObjectCommand(deleteParams));
 }
 
-module.exports = {
+const getObjectSignedUrl = (key) => {
+  const params = {
+    Bucket: bucketName, 
+    Key: key
+  }
+
+  // https://aws.amazon.com/blogs/developer/generate-presigned-url-modular-aws-sdk-javascript/
+  const command = new GetObjectCommand(params);
+  const seconds = 60;
+  const url = getSignedUrl(S3Client, command, { expiresIn: seconds });
+
+  return url;
+}
+
+export default {
   uploadFile,
-  getFileStream
+  deleteFile,
+  getObjectSignedUrl,
 };
