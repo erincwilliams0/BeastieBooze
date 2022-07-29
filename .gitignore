@@ -7,3 +7,6 @@ node_modules
 #webpack bundle
 client/dist/bundle.js
 client/dist/bundle.js.map
+
+#Legacy readme edits
+EDITRM.md
