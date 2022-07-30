@@ -95,6 +95,21 @@ const getShoppingList = async (userId) => {
     }
   }
 
+  const updateShoppingList = async (userId, update) => {
+    const { googleId } = userId;
+
+    try {
+      const drink = await ShoppingList.findOneAndUpdate(
+        { googleId },
+        { $push: { List: update } },
+        { new: true }
+      );
+      return drink;
+    } catch(err) {
+      console.error('error from mongoose model method\n', err);
+    }
+
+  }
 
 module.exports = {
   getUser,
@@ -105,5 +120,6 @@ module.exports = {
   addReviews,
   findDrinkReviews,
   createShoppingList,
-  getShoppingList
+  getShoppingList,
+  updateShoppingList
 };
