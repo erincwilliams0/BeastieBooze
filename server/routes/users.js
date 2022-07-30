@@ -139,11 +139,12 @@ usersRouter.get('/shoppinglist/:user', async (req, res) => {
 usersRouter.patch('/shoppinglist/:user', (req, res) => {
   // get user from req.params
   const { user } = req.params;
-  const { data } = req.body;
-  console.log('here is the data sent to the updateShoppingList method', data);
-  updateShoppingList({ googleId: user }, data)
+  const { update } = req.body;
+  
+  
+  updateShoppingList({ googleId: user }, update)
   .then((data) => {
-    console.log('data returned/created from updateShoppingList query\n', data);
+    
     res.status(201).send(data);
   })
   .catch((err) => {

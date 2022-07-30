@@ -167,11 +167,12 @@ function UserContextProvider({ children }) {
   };
 
   const updateShoppingList = (updateObj) => {
-    console.log('here is the update object passed to the axios patch request\n', updateObj);
+    const { googleId } = userInfo;
 
    axios.patch(`/routes/users/shoppinglist/${googleId}`, updateObj)
-   .then((data) => {
+   .then(({ data }) => {
     console.log(`data returned from the axios shoppingList patch req\n`, data);
+    setShoppingList(data);
    })
    .catch((err) => {
     console.error(`error, axios could not patch shoppinglist\n`, err);
