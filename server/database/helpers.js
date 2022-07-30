@@ -1,4 +1,4 @@
-const { User, Drink, Review } = require('./Models');
+const { User, Drink, Review, Event } = require('./Models');
 
 // getUser should take a userId and return the found user, empty array or null if not found?
 const getUser = async (id) => {
@@ -49,6 +49,10 @@ const findAndDeleteFavorites = async (id, drinkId) => {
   return updatedUser;
 };
 
+const findAndDeleteEvents = async (id) => {
+  const deletedEvent = await Event.findOneAndDelete({ id });
+  return deletedEvent;
+};
 // Adds a review to the review model with information on author, drink and review.
 const addReviews = async (data) => {
   const reviewList = await Review.create({
@@ -78,4 +82,5 @@ module.exports = {
   findAndDeleteFavorites,
   addReviews,
   findDrinkReviews,
+  findAndDeleteEvents,
 };

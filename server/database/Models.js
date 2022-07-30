@@ -117,14 +117,15 @@ const getDrinks = async () => {
 };
 
 const createEvent = async (args) => {
-  const event = new Event({
-    title: args.title,
-    description: args.description,
-    date: new Date().toISOString(),
-    location: args.location,
-    eventType: args.eventType,
+  const { eventName: title, description, date, location, eventType } = args;
+  const newEvent = new Event({
+    title,
+    description,
+    date,
+    location,
+    eventType,
   });
-  await event.save();
+  await newEvent.save();
 };
 
 const getEvents = async () => {
