@@ -157,7 +157,7 @@ function UserContextProvider({ children }) {
     // axios request to get shopping list from database
     const { googleId } = userInfo;
     axios.get(`/routes/users/shoppinglist/${googleId}`)
-    .then((data) => {
+    .then(({ data }) => {
       console.log('axios get shoppinglist successful\n', data);
       setShoppingList(data);
     })
@@ -165,6 +165,10 @@ function UserContextProvider({ children }) {
       console.error('axios had an error getting shoppingList\n', err);
     })
   };
+
+  // const updateShoppingList = () => {
+    
+  // }
 
   const userProps = {
     userInfo,
@@ -179,6 +183,8 @@ function UserContextProvider({ children }) {
     favoriteDrinks,
     isLegal,
     verifyAge,
+    shoppingList,
+    setShoppingList,
     getShoppingList
   };
 

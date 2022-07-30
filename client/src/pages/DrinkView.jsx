@@ -31,8 +31,14 @@ const DrinkView = () => {
 
   const ingredients = ingredientParser(aDrink);
 
-  const { isLoggedIn, favoriteDrinks, toggleFavorite, removeFavorite, getShoppingList } =
+  const { isLoggedIn, favoriteDrinks, toggleFavorite, removeFavorite, getShoppingList, shoppingList, setShoppingList } =
     useContext(UserContext);
+
+    //when drinkView renders setShoppingList
+    useEffect(() => {
+      getShoppingList();
+    }, [])
+
 
   // grab what we need from drink object, reassign names
   const {
@@ -113,7 +119,7 @@ const DrinkView = () => {
               type='button'
               className='btn btn-dark'
               onClick={() => {
-                getShoppingList();
+                console.log(shoppingList);
               }}
             >
               Add To Shopping List
