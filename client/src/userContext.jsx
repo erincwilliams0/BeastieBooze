@@ -10,6 +10,8 @@ function UserContextProvider({ children }) {
   const [userCreations, setUserCreations] = useState([]);
   const [favoriteDrinks, setFavoriteDrinks] = useState([]);
   const [isLegal, setIsLegal] = useState(null);
+  const [shoppingList, setShoppingList] = useState({});
+
 
   const loginUser = (userData) => {
     axios
@@ -151,6 +153,19 @@ function UserContextProvider({ children }) {
     });
   };
 
+  const getShoppingList = () => {
+    // axios request to get shopping list from database
+    const { googleId } = userInfo;
+    axios.get(`/routes/users/shoppinglist/${googleId}`)
+    .then((data) => {
+      console.log('axios get shoppinglist successful\n', data);
+      setShoppingList(data);
+    })
+    .catch((err) => {
+      console.error('axios had an error getting shoppingList\n', err);
+    })
+  };
+
   const userProps = {
     userInfo,
     loginUser,
@@ -164,6 +179,7 @@ function UserContextProvider({ children }) {
     favoriteDrinks,
     isLegal,
     verifyAge,
+    getShoppingList
   };
 
   return (
