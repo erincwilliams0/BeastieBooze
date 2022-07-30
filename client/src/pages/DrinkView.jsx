@@ -31,7 +31,7 @@ const DrinkView = () => {
 
   const ingredients = ingredientParser(aDrink);
 
-  const { isLoggedIn, favoriteDrinks, toggleFavorite, removeFavorite } =
+  const { isLoggedIn, favoriteDrinks, toggleFavorite, removeFavorite, getShoppingList } =
     useContext(UserContext);
 
   // grab what we need from drink object, reassign names
@@ -103,7 +103,27 @@ const DrinkView = () => {
   };
 
   //Slackerss add Drink to shoppingList button
-  const ShoppingButton = () => {};
+  const ShoppingButton = () => {
+    if (isLoggedIn) {
+      return (
+        <>
+          <br></br>
+          <span className='drink-button'>
+            <button
+              type='button'
+              className='btn btn-dark'
+              onClick={() => {
+                getShoppingList();
+              }}
+            >
+              Add To Shopping List
+            </button>
+          </span>
+        {/** remove from Shoppinglist button? */}
+        </>
+      );
+    }
+  };
 
   return (
     <div className='container'>
@@ -130,6 +150,7 @@ const DrinkView = () => {
           <p>{directions}</p>
           <StarRating />
           {userButtons()}
+          {ShoppingButton()}
           <br></br>
           <br></br>
         </div>
