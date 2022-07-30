@@ -140,4 +140,5 @@ module.exports = {
   Event,
   createEvent,
   ShoppingList,
+  getEvents,
 };
