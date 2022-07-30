@@ -166,9 +166,18 @@ function UserContextProvider({ children }) {
     })
   };
 
-  // const updateShoppingList = () => {
-    
-  // }
+  const updateShoppingList = (updateObj) => {
+    console.log('here is the update object passed to the axios patch request\n', updateObj);
+
+   axios.patch(`/routes/users/shoppinglist/${googleId}`, updateObj)
+   .then((data) => {
+    console.log(`data returned from the axios shoppingList patch req\n`, data);
+   })
+   .catch((err) => {
+    console.error(`error, axios could not patch shoppinglist\n`, err);
+   }) 
+
+  }
 
   const userProps = {
     userInfo,
@@ -185,7 +194,8 @@ function UserContextProvider({ children }) {
     verifyAge,
     shoppingList,
     setShoppingList,
-    getShoppingList
+    getShoppingList,
+    updateShoppingList
   };
 
   return (
