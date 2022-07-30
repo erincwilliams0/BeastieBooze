@@ -118,13 +118,19 @@ const getDrinks = async () => {
 };
 
 const createEvent = async (args) => {
-  const event = {
-    title: args.title,
-    description: args.description,
-    date: new Date().toISOString(),
-    location: args.location,
-    eventType: args.eventType,
-  };
+  const { eventName: title, description, date, location, eventType } = args;
+  const newEvent = new Event({
+    title,
+    description,
+    date,
+    location,
+    eventType,
+  });
+  await newEvent.save();
+};
+
+const getEvents = async () => {
+  return await Event.find({}).exec();
 };
 
 module.exports = {
@@ -136,4 +142,5 @@ module.exports = {
   Event,
   createEvent,
   ShoppingList,
+  getEvents,
 };

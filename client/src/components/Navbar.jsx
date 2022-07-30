@@ -1,8 +1,8 @@
 // navbar will contain logo on the far left, signup/login or logout/username(profile view) buttons on the far right
 // buttons to switch to either custom drinks page or the main feed
 
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Login from './Login.jsx';
 import axios from 'axios';
 
@@ -16,23 +16,21 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 // import { UserContext } from '../userContext.jsx';
 
-import { UserContext } from '../userContext'
-
-
+import { UserContext } from '../userContext';
+import EventCreation from './EventCreation.jsx';
 
 const Navbar = () => {
-
   //* links to endpoints that will be handled by Routes in App component
   const { userInfo, isLoggedIn } = useContext(UserContext);
   const [open, setOpen] = useState(false);
-  const [file, setFile] = useState()
-  const [caption, setCaption] = useState("")
+  const [file, setFile] = useState();
+  const [caption, setCaption] = useState('');
   const { username } = userInfo;
   //state to hold collapsing navbar
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const handleNavCollapse = () => {
     return setIsNavCollapsed(!isNavCollapsed);
-  }
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,61 +40,94 @@ const Navbar = () => {
     setOpen(false);
   };
 
-  const submit = e => {
+  const submit = (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("image", file);
-    formData.append("caption", caption);
+    formData.append('image', file);
+    formData.append('caption', caption);
 
-    axios.post('/routes/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+    axios
+      .post('/routes/images', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
       .then((data) => {
         console.log(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
-  const fileSelected = e => {
+  const fileSelected = (e) => {
     const file = e.target.files[0];
 
     setFile(file);
-  }
+  };
 
   return (
-    <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-
-      <Link to="/" className="navbar-brand">
-        <img src="images/beastieBoozeLogo.png"></img>
+    <nav className='navbar sticky-top navbar-expand-lg navbar-dark bg-dark'>
+      <Link to='/' className='navbar-brand'>
+        <img src='images/beastieBoozeLogo.png'></img>
       </Link>
 
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarTogglerDemo02" aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation" onClick={handleNavCollapse}>
-        <span className="navbar-toggler-icon"></span>
+      <button
+        className='navbar-toggler'
+        type='button'
+        data-toggle='collapse'
+        data-target='#navbarNav'
+        aria-controls='navbarTogglerDemo02'
+        aria-expanded={!isNavCollapsed ? true : false}
+        aria-label='Toggle navigation'
+        onClick={handleNavCollapse}
+      >
+        <span className='navbar-toggler-icon'></span>
       </button>
 
-      <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNav">
-        <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li className="nav-item">
-            <Link to="/search" className="nav-link">Search</Link>
+      <div
+        className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`}
+        id='navbarNav'
+      >
+        <ul className='navbar-nav mr-auto mt-2 mt-lg-0'>
+          <li className='nav-item'>
+            <Link to='/search' className='nav-link'>
+              Search
+            </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/custom" className="nav-link">Custom</Link>
+          <li className='nav-item'>
+            <Link to='/custom' className='nav-link'>
+              Custom
+            </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/map" className="nav-link">Find My Booze</Link>
+          <li className='nav-item'>
+            <Link to='/map' className='nav-link'>
+              Find My Booze
+            </Link>
           </li>
-          {isLoggedIn ?
-            <li className="nav-item">
-              <Link to="/create" className="nav-link">Submit</Link>
+          <li className='nav-item'>
+            <Link to='/createevent' className='nav-link'>
+              New Event
+            </Link>
+          </li>
+          <li className='nav-item'>
+            <Link to='/events' className='nav-link'>
+              Events
+            </Link>
+          </li>
+          {isLoggedIn ? (
+            <li className='nav-item'>
+              <Link to='/create' className='nav-link'>
+                Submit
+              </Link>
             </li>
-            : null
-          }
+          ) : null}
         </ul>
         <li>
           <div>
-            <Button className="add-image">
-              <AddPhotoAlternateOutlinedIcon onClick={handleClickOpen}></AddPhotoAlternateOutlinedIcon>
+            <Button className='add-image'>
+              <AddPhotoAlternateOutlinedIcon
+                onClick={handleClickOpen}
+              ></AddPhotoAlternateOutlinedIcon>
             </Button>
             <Dialog open={open} onClose={handleClose}>
               <DialogTitle>Booze Image Uploader</DialogTitle>
@@ -107,12 +138,23 @@ const Navbar = () => {
               </DialogContent>
               <div>
                 <form onSubmit={submit}>
-                  <input id="choose-file" type="file" onChange={fileSelected} accept="image/*" />
+                  <input
+                    id='choose-file'
+                    type='file'
+                    onChange={fileSelected}
+                    accept='image/*'
+                  />
                   <br />
-                  <TextField id="caption-input" label="Name of Drink" variant="outlined" onChange={e => setCaption(e.target.value)} type="text" />
+                  <TextField
+                    id='caption-input'
+                    label='Name of Drink'
+                    variant='outlined'
+                    onChange={(e) => setCaption(e.target.value)}
+                    type='text'
+                  />
                   {/* <input id="caption-input" value={caption} onChange={e => setCaption(e.target.value)} type="text" placeholder='Name of Drink'></input> */}
                   <DialogActions>
-                    <Button type="submit">Upload</Button>
+                    <Button type='submit'>Upload</Button>
                     <Button onClick={handleClose}>Cancel</Button>
                   </DialogActions>
                 </form>
@@ -120,24 +162,27 @@ const Navbar = () => {
             </Dialog>
           </div>
         </li>
-        {username ?
-          <li className="nav-item">
+
+        {username ? (
+          <li className='nav-item'>
             <Link to={`/profile/${userInfo.googleId}`}>
-              <p className="nav-item grey" id="welcome">
+              <p className='nav-item grey' id='welcome'>
                 Welcome, {username}!&nbsp;&nbsp;&nbsp;&nbsp;
               </p>
             </Link>
           </li>
-          : null
-        }
-        <li className="nav-item login-nav">
-          <div className="nav-link btn-nav" style={{ padding: '10px 0px 0px 0px' }}>
+        ) : null}
+        <li className='nav-item login-nav'>
+          <div
+            className='nav-link btn-nav'
+            style={{ padding: '10px 0px 0px 0px' }}
+          >
             <Login />
           </div>
         </li>
       </div>
     </nav>
-  )
+  );
 };
 
 export default Navbar;
